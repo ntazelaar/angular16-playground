@@ -1,0 +1,20 @@
+<main>
+  <div>
+    <h1>Number Demo</h1>
+    <button (click)="onIncrementClick()">Increment value</button>
+    <button (click)="onSetNumberClick()">Set random value</button>
+    <p>Value: {{numberTest()}}</p>
+  </div>
+  <div>
+    <h1>Array Demo</h1>
+    <button (click)="onMutateClick()">Mutate Array</button>
+    <p>Value: {{arrayAsString()}}</p>
+  </div>
+  <hr>
+  <div>
+    <h2>Events</h2>
+    <ul>
+      <li *ngFor="let item of events()">{{item}}</li>
+    </ul>
+  </div>
+</main>
