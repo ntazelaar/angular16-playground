@@ -1,20 +1,22 @@
 <main>
+  <h1>{{title}}</h1>
+  <a href="https://github.com/ntazelaar/angular16-playground" target="_blank">GitHub Repo</a>
   <div>
-    <h1>Number Demo</h1>
+    <h2>Number Demo</h2>
     <button (click)="onIncrementClick()">Increment value</button>
     <button (click)="onSetNumberClick()">Set random value</button>
     <p>Value: {{numberTest()}}</p>
   </div>
   <div>
-    <h1>Array Demo</h1>
+    <h2>Array Demo</h2>
     <button (click)="onMutateClick()">Mutate Array</button>
     <p>Value: {{arrayAsString()}}</p>
   </div>
   <hr>
   <div>
-    <h2>Events</h2>
+    <h3>Events</h3>
     <ul>
-      <li *ngFor="let item of events()">{{item}}</li>
+      <li *ngFor="let item of logItems()">{{item}}</li>
     </ul>
   </div>
 </main>

@@ -1,4 +1,4 @@
-import { Component, signal, computed, effect } from '@angular/core';
+import { Component, signal, computed, effect, OnDestroy } from '@angular/core';
 
 import randomWords from 'random-words';
 
@@ -7,17 +7,17 @@ import randomWords from 'random-words';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   title = 'Angular 16 Playground';
 
   numberTest = signal<number>(0);
   arrayTest = signal<string[]>([]);
-  events = signal<string[]>([]);
+  logItems = signal<string[]>([]);
   arrayAsString = computed<string>(() => JSON.stringify(this.arrayTest()));
 
   numberEffect = effect(
     () => {
-      this.addLogline(`Value of number changed to ${this.numberTest()}`);
+      this.addLogItem(`Value of number changed to ${this.numberTest()}`);
     },
     {
       allowSignalWrites: true,
@@ -26,9 +26,8 @@ export class AppComponent {
 
   arrayEffect = effect(
     () => {
-      const arrayValue = this.arrayTest();
-      this.addLogline(
-        `New element ${arrayValue[arrayValue.length - 1]} added to array`
+      this.addLogItem(
+        `New element ${this.arrayTest().slice(-1)} added to array`
       );
     },
     {
@@ -36,9 +35,9 @@ export class AppComponent {
     }
   );
 
-  private addLogline(text: string) {
+  private addLogItem(text: string) {
     const line = `[${new Date().toUTCString()}] ${text}`;
-    this.events.mutate((currentValue) => currentValue.push(line));
+    this.logItems.mutate((currentValue) => currentValue.push(line));
   }
 
   onIncrementClick() {
@@ -46,7 +45,7 @@ export class AppComponent {
   }
 
   onSetNumberClick() {
-    this.numberTest.set(Math.floor(Math.random() * 1000))
+    this.numberTest.set(Math.floor(Math.random() * 1000));
   }
 
   onMutateClick() {
@@ -54,5 +53,10 @@ export class AppComponent {
       const word = randomWords(1)[0];
       currentValue.push(word);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.numberEffect.destroy();
+    this.arrayEffect.destroy();
   }
 }
